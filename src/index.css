@@ -1,0 +1,5 @@
+@import "tailwindcss";
+
+/* GroWork design system (ported). Unlayered so it takes precedence over
+   Tailwind's base/utilities while Tailwind utilities stay available. */
+@import "./styles.css";
