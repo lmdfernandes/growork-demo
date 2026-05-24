@@ -1,6 +1,6 @@
 import React from "react";
 const Icons = window.Icons;
-const { Sidebar, TopBar, MobileNav, Banner, PushToast, RoleSwitcher, HomeScreen, ExploreScreen, ProfileScreen, BookingScreen, ConfirmationScreen, BookingsScreen, HistoryScreen, NotificationsScreen, ChatScreen, MyProfileScreen, SettingsScreen, PersonalInfoScreen, Field, PrivacyScreen, TwoFactorScreen, LoggedOutScreen, ProDashboard, ProBookings, AgendaPlanner, BookingDetails, MemberDashboard, ProTeam, MemberDetails, AddMemberScreen, EditRole, EditServices, EditSchedule, BusinessSettings, BlacklistScreen, AdminAnnouncements, RichTextEditor, NewBookingScreen, NewClientScreen, ProClients, useTweaks, TweaksPanel, TweakSection, TweakRow, TweakSlider, TweakToggle, TweakRadio, TweakSelect, TweakText, TweakNumber, __twkIsLight, TweakColor, TweakButton } = window;
+const { Sidebar, TopBar, MobileNav, Banner, PushToast, RoleSwitcher, MobileMenu, HomeScreen, ExploreScreen, ProfileScreen, BookingScreen, ConfirmationScreen, BookingsScreen, HistoryScreen, NotificationsScreen, ChatScreen, MyProfileScreen, SettingsScreen, PersonalInfoScreen, Field, PrivacyScreen, TwoFactorScreen, LoggedOutScreen, ProDashboard, ProBookings, AgendaPlanner, BookingDetails, MemberDashboard, ProTeam, MemberDetails, AddMemberScreen, EditRole, EditServices, EditSchedule, BusinessSettings, BlacklistScreen, AdminAnnouncements, RichTextEditor, NewBookingScreen, NewClientScreen, ProClients, useTweaks, TweaksPanel, TweakSection, TweakRow, TweakSlider, TweakToggle, TweakRadio, TweakSelect, TweakText, TweakNumber, __twkIsLight, TweakColor, TweakButton } = window;
 
 // Main GroWork app
 const { useState, useEffect, useMemo } = React;
@@ -24,6 +24,7 @@ function App() {
   const [notifications, setNotifications] = useState(window.GW_DATA.notifications);
   const [toast, setToast] = useState(null);
   const [showBanner, setShowBanner] = useState(true);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   // Apply variant + accent to root
   useEffect(() => {
@@ -173,6 +174,7 @@ function App() {
           onNavSettings={() => setView("settings")}
           onLogout={() => setView("logged-out")}
           onToast={(t2) => { setToast(t2); setTimeout(() => setToast(null), 4500); }}
+          onOpenMenu={() => setMenuOpen(true)}
         />
         {showBannerForView && showBanner && (
           <Banner role={role} t={tt} onView={() => role === "client" ? setView("bookings") : setView("notifications")} onDismiss={() => setShowBanner(false)} />
@@ -180,6 +182,7 @@ function App() {
         {content}
       </main>
       <MobileNav role={role} view={view} setView={setView} t={tt} />
+      <MobileMenu open={menuOpen} onClose={() => setMenuOpen(false)} role={role} view={view} setView={setView} t={tt} lang={lang} setLang={setLang} onLogout={() => setView("logged-out")} />
       <RoleSwitcher role={role} setRole={setRole} setView={setView} t={tt} />
       <PushToast toast={toast} onClose={() => setToast(null)} />
 

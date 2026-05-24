@@ -5,7 +5,8 @@ const { HomeScreen, ExploreScreen, ProfileScreen, BookingScreen, ConfirmationScr
 // Shell: sidebar, topbar, mobile nav, banner, push toast
 const { useState, useEffect, useRef, useMemo } = React;
 
-function Sidebar({ role, setRole, view, setView, t, lang, setLang, onLogout }) {
+// Shared nav model so the desktop sidebar and the mobile drawer stay in sync
+function buildNav(role, t, lang) {
   const clientNav = [
     { id: "home", label: t.home, icon: Icons.home },
     { id: "bookings", label: t.bookings, icon: Icons.calendar },
@@ -30,7 +31,14 @@ function Sidebar({ role, setRole, view, setView, t, lang, setLang, onLogout }) {
     { id: "notifications", label: t.notif, icon: Icons.bell },
     { id: "settings", label: t.menu_profile, icon: Icons.user }
   ];
-  const nav = role === "client" ? clientNav : role === "member" ? memberNav : proNav;
+  return role === "client" ? clientNav : role === "member" ? memberNav : proNav;
+}
+
+const __navActive = (view, id) =>
+  view === id || (id === "settings" && (view === "settings-personal" || view === "settings-privacy" || view === "settings-2fa"));
+
+function Sidebar({ role, setRole, view, setView, t, lang, setLang, onLogout }) {
+  const nav = buildNav(role, t, lang);
 
   return (
     <aside className="sidebar">
@@ -42,7 +50,7 @@ function Sidebar({ role, setRole, view, setView, t, lang, setLang, onLogout }) {
       <div className="nav-section-label">Menu</div>
       <div className="nav">
         {nav.map(n => (
-          <button key={n.id} className={"nav-item" + (view === n.id || (n.id === "settings" && (view === "settings-personal" || view === "settings-privacy" || view === "settings-2fa")) ? " active" : "")} onClick={() => setView(n.id)}>
+          <button key={n.id} className={"nav-item" + (__navActive(view, n.id) ? " active" : "")} onClick={() => setView(n.id)}>
             {n.icon}<span>{n.label}</span>
           </button>
         ))}
@@ -64,7 +72,7 @@ function Sidebar({ role, setRole, view, setView, t, lang, setLang, onLogout }) {
   );
 }
 
-function TopBar({ t, onNotifClick, unreadCount, role, lang, setLang, onPickPro, notifications, onLogout, onNavSettings, onNavProfile, onToast, onMarkAllRead }) {
+function TopBar({ t, onNotifClick, unreadCount, role, lang, setLang, onPickPro, notifications, onLogout, onNavSettings, onNavProfile, onToast, onMarkAllRead, onOpenMenu }) {
   const [q, setQ] = useState("");
   const [searchOpen, setSearchOpen] = useState(false);
   const [bellOpen, setBellOpen] = useState(false);
@@ -148,9 +156,14 @@ function TopBar({ t, onNotifClick, unreadCount, role, lang, setLang, onPickPro, 
   return (
     <div className="topbar">
       <div className="mob-header" style={{ flex: 1, alignItems: "center" }}>
-        <div className="brand">
-          <div className="brand-mark">G</div>
-          <div className="brand-name">GroWork</div>
+        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+          <button className="mob-menu-btn" onClick={() => onOpenMenu && onOpenMenu()} aria-label={t.menu || "Menu"}>
+            {Icons.menu}
+          </button>
+          <div className="brand">
+            <div className="brand-mark">G</div>
+            <div className="brand-name">GroWork</div>
+          </div>
         </div>
         <div className="lang-toggle">
           <button className={lang === "pt" ? "active" : ""} onClick={() => setLang("pt")}>PT</button>
@@ -363,4 +376,56 @@ function RoleSwitcher({ role, setRole, setView, t }) {
   );
 }
 
-Object.assign(window, { Sidebar, TopBar, MobileNav, Banner, PushToast, RoleSwitcher });
+// Slide-in drawer that mirrors the full sidebar navigation on mobile/tablet
+function MobileMenu({ open, onClose, role, view, setView, t, lang, setLang, onLogout }) {
+  const nav = buildNav(role, t, lang);
+
+  // Lock body scroll while the drawer is open
+  useEffect(() => {
+    if (!open) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => { document.body.style.overflow = prev; };
+  }, [open]);
+
+  function go(id) { setView(id); onClose && onClose(); }
+
+  return (
+    <div className={"mob-menu-root" + (open ? " open" : "")} aria-hidden={!open}>
+      <div className="mob-menu-scrim" onClick={onClose} />
+      <aside className="mob-menu-panel" role="dialog" aria-modal="true" aria-label="Menu">
+        <div className="mob-menu-head">
+          <div className="brand">
+            <div className="brand-mark">G</div>
+            <div className="brand-name">GroWork</div>
+          </div>
+          <button className="icon-btn" onClick={onClose} aria-label={t.close || "Close"}>{Icons.x}</button>
+        </div>
+
+        <div className="nav-section-label">Menu</div>
+        <div className="nav">
+          {nav.map(n => (
+            <button key={n.id} className={"nav-item" + (__navActive(view, n.id) ? " active" : "")} onClick={() => go(n.id)}>
+              {n.icon}<span>{n.label}</span>
+            </button>
+          ))}
+        </div>
+
+        <div className="role-switch">
+          <div className="spread">
+            <div className="role-switch-label">{lang === "pt" ? "Idioma" : "Language"}</div>
+            <div className="lang-toggle">
+              <button className={lang === "pt" ? "active" : ""} onClick={() => setLang("pt")}>PT</button>
+              <button className={lang === "en" ? "active" : ""} onClick={() => setLang("en")}>EN</button>
+            </div>
+          </div>
+          <button className="sidebar-logout" onClick={() => { onClose && onClose(); onLogout && onLogout(); }}>
+            {Icons.logout}<span>{t.menu_logout}</span>
+          </button>
+        </div>
+      </aside>
+    </div>
+  );
+}
+
+Object.assign(window, { Sidebar, TopBar, MobileNav, Banner, PushToast, RoleSwitcher, MobileMenu });

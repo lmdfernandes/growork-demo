@@ -21,6 +21,7 @@ const Icons = {
   plus: _svg(<path d="M12 5v14M5 12h14" />),
   check: _svg(<path d="M5 12l5 5 9-12" />, 2.4),
   x: _svg(<path d="M18 6 6 18M6 6l12 12" />),
+  menu: _svg(<path d="M3 6h18M3 12h18M3 18h18" />),
   send: _svg(<path d="m22 2-11 11M22 2l-7 20-4-9-9-4 20-7Z" />),
   star: _svg(<path d="M12 3l2.7 5.7 6.3.7-4.7 4.3 1.3 6.3-5.6-3-5.6 3 1.3-6.3L3 9.4l6.3-.7Z" />),
   mapPin: _svg(<><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 1 1 18 0Z" /><circle cx="12" cy="10" r="3" /></>),

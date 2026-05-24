@@ -1726,6 +1726,49 @@ a { color: inherit; text-decoration: none; }
 }
 @media (max-width: 920px) { .mob-header { display: flex; } }
 
+/* Hamburger button (lives inside the mobile-only header) */
+.mob-menu-btn {
+  width: 40px; height: 40px;
+  display: grid; place-items: center;
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  color: var(--ink);
+  flex-shrink: 0;
+  transition: background .15s;
+}
+.mob-menu-btn:hover { background: var(--surface-2); }
+[data-variant="editorial"] .mob-menu-btn { border-radius: 2px; }
+
+/* Mobile navigation drawer */
+.mob-menu-root { position: fixed; inset: 0; z-index: 2000; visibility: hidden; pointer-events: none; }
+.mob-menu-root.open { visibility: visible; pointer-events: auto; }
+.mob-menu-scrim {
+  position: absolute; inset: 0;
+  background: rgba(15, 12, 30, .45);
+  opacity: 0;
+  transition: opacity .2s ease;
+}
+.mob-menu-root.open .mob-menu-scrim { opacity: 1; }
+.mob-menu-panel {
+  position: absolute;
+  top: 0; left: 0; bottom: 0;
+  width: min(82vw, 300px);
+  background: var(--surface);
+  border-right: 1px solid var(--line);
+  padding: 18px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  overflow-y: auto;
+  transform: translateX(-100%);
+  transition: transform .24s cubic-bezier(.4, 0, .2, 1);
+  box-shadow: var(--shadow-md);
+}
+.mob-menu-root.open .mob-menu-panel { transform: translateX(0); }
+.mob-menu-head { display: flex; align-items: center; justify-content: space-between; }
+.mob-menu-panel .role-switch { margin-top: auto; }
+
 /* Notif pill banner */
 .push-toast {
   position: fixed;
@@ -1784,6 +1827,14 @@ a { color: inherit; text-decoration: none; }
 /* tiny utility */
 .row { display: flex; align-items: center; gap: 8px; }
 .spread { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+/* Page headers (title + action buttons): stack on phones so buttons never overflow */
+@media (max-width: 640px) {
+  .spread.mb-4 { flex-wrap: wrap; align-items: stretch; }
+  .spread.mb-4 > :first-child { flex: 1 1 100%; min-width: 0; }
+  .spread.mb-4 > :last-child:not(:first-child) { width: 100%; }
+  .spread.mb-4 > div:last-child:not(:first-child) { display: flex; }
+  .spread.mb-4 > div:last-child:not(:first-child) > .btn { flex: 1 1 0; }
+}
 .mt-2 { margin-top: 8px; }
 .mt-3 { margin-top: 12px; }
 .mt-4 { margin-top: 16px; }
