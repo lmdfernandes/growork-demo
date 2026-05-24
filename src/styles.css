@@ -2505,6 +2505,43 @@ a { color: inherit; text-decoration: none; }
 .role-switch-toggle.role-switch-3 { grid-template-columns: 1fr 1fr 1fr; }
 .role-switch-toggle.role-switch-3 .role-btn { font-size: 11px; padding: 6px 4px; }
 
+/* Floating view switcher — fixed, visible on every breakpoint */
+.role-fab {
+  position: fixed;
+  left: 50%;
+  bottom: 18px;
+  transform: translateX(-50%);
+  z-index: 45;
+  display: inline-flex;
+  gap: 4px;
+  padding: 5px;
+  border-radius: 999px;
+  background: color-mix(in oklch, var(--surface) 90%, transparent);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow-md);
+  backdrop-filter: saturate(140%) blur(12px);
+  -webkit-backdrop-filter: saturate(140%) blur(12px);
+}
+[data-variant="editorial"] .role-fab { border-radius: 2px; }
+.role-fab-btn {
+  padding: 8px 16px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--muted);
+  white-space: nowrap;
+  transition: background .15s, color .15s;
+}
+.role-fab-btn:hover { color: var(--ink); }
+.role-fab-btn.active { background: var(--accent); color: var(--accent-fg); }
+[data-variant="editorial"] .role-fab-btn { border-radius: 2px; }
+[data-variant="editorial"] .role-fab-btn.active { background: var(--ink); color: #fff; }
+/* Lift it clear of the bottom mobile nav */
+@media (max-width: 920px) {
+  .role-fab { bottom: 86px; padding: 4px; gap: 3px; }
+  .role-fab-btn { padding: 8px 14px; }
+}
+
 /* Member dashboard hero */
 .member-hero {
   background: var(--surface);

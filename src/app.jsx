@@ -1,6 +1,6 @@
 import React from "react";
 const Icons = window.Icons;
-const { Sidebar, TopBar, MobileNav, Banner, PushToast, HomeScreen, ExploreScreen, ProfileScreen, BookingScreen, ConfirmationScreen, BookingsScreen, HistoryScreen, NotificationsScreen, ChatScreen, MyProfileScreen, SettingsScreen, PersonalInfoScreen, Field, PrivacyScreen, TwoFactorScreen, LoggedOutScreen, ProDashboard, ProBookings, AgendaPlanner, BookingDetails, MemberDashboard, ProTeam, MemberDetails, AddMemberScreen, EditRole, EditServices, EditSchedule, BusinessSettings, BlacklistScreen, AdminAnnouncements, RichTextEditor, NewBookingScreen, NewClientScreen, ProClients, useTweaks, TweaksPanel, TweakSection, TweakRow, TweakSlider, TweakToggle, TweakRadio, TweakSelect, TweakText, TweakNumber, __twkIsLight, TweakColor, TweakButton } = window;
+const { Sidebar, TopBar, MobileNav, Banner, PushToast, RoleSwitcher, HomeScreen, ExploreScreen, ProfileScreen, BookingScreen, ConfirmationScreen, BookingsScreen, HistoryScreen, NotificationsScreen, ChatScreen, MyProfileScreen, SettingsScreen, PersonalInfoScreen, Field, PrivacyScreen, TwoFactorScreen, LoggedOutScreen, ProDashboard, ProBookings, AgendaPlanner, BookingDetails, MemberDashboard, ProTeam, MemberDetails, AddMemberScreen, EditRole, EditServices, EditSchedule, BusinessSettings, BlacklistScreen, AdminAnnouncements, RichTextEditor, NewBookingScreen, NewClientScreen, ProClients, useTweaks, TweaksPanel, TweakSection, TweakRow, TweakSlider, TweakToggle, TweakRadio, TweakSelect, TweakText, TweakNumber, __twkIsLight, TweakColor, TweakButton } = window;
 
 // Main GroWork app
 const { useState, useEffect, useMemo } = React;
@@ -150,6 +150,7 @@ function App() {
       <div className="app logged-out-shell">
         <LoggedOutScreen t={tt} lang={lang} onSignIn={() => setView(role === "client" ? "home" : "pro-dashboard")} />
         <PushToast toast={toast} onClose={() => setToast(null)} />
+        <RoleSwitcher role={role} setRole={setRole} setView={setView} t={tt} />
       </div>
     );
   }
@@ -179,6 +180,7 @@ function App() {
         {content}
       </main>
       <MobileNav role={role} view={view} setView={setView} t={tt} />
+      <RoleSwitcher role={role} setRole={setRole} setView={setView} t={tt} />
       <PushToast toast={toast} onClose={() => setToast(null)} />
 
       {window.TweaksPanel && (

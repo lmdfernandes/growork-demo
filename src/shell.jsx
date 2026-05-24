@@ -50,16 +50,11 @@ function Sidebar({ role, setRole, view, setView, t, lang, setLang, onLogout }) {
 
       <div className="role-switch">
         <div className="spread">
-          <div className="role-switch-label">{lang === "pt" ? "Modo" : "Mode"}</div>
+          <div className="role-switch-label">{lang === "pt" ? "Idioma" : "Language"}</div>
           <div className="lang-toggle">
             <button className={lang === "pt" ? "active" : ""} onClick={() => setLang("pt")}>PT</button>
             <button className={lang === "en" ? "active" : ""} onClick={() => setLang("en")}>EN</button>
           </div>
-        </div>
-        <div className="role-switch-toggle role-switch-3">
-          <button className={"role-btn" + (role === "client" ? " active" : "")} onClick={() => { setRole("client"); setView("home"); }}>{t.role_client}</button>
-          <button className={"role-btn" + (role === "pro" ? " active" : "")} onClick={() => { setRole("pro"); setView("pro-dashboard"); }}>{t.role_pro}</button>
-          <button className={"role-btn" + (role === "member" ? " active" : "")} onClick={() => { setRole("member"); setView("member-dashboard"); }}>{t.role_member}</button>
         </div>
         <button className="sidebar-logout" onClick={onLogout}>
           {Icons.logout}<span>{t.menu_logout}</span>
@@ -343,4 +338,29 @@ function PushToast({ toast, onClose }) {
   );
 }
 
-Object.assign(window, { Sidebar, TopBar, MobileNav, Banner, PushToast });
+// Floating role/view switcher — always visible across desktop, tablet and mobile
+// so the demo's three perspectives (Cliente / Admin / Equipa) are one tap away.
+function RoleSwitcher({ role, setRole, setView, t }) {
+  const go = (r, v) => { setRole(r); setView(v); };
+  const roles = [
+    { id: "client", label: t.role_client, view: "home" },
+    { id: "pro", label: t.role_pro, view: "pro-dashboard" },
+    { id: "member", label: t.role_member, view: "member-dashboard" },
+  ];
+  return (
+    <div className="role-fab" role="group" aria-label="Switch view" data-noncommentable="">
+      {roles.map(r => (
+        <button
+          key={r.id}
+          className={"role-fab-btn" + (role === r.id ? " active" : "")}
+          aria-pressed={role === r.id}
+          onClick={() => go(r.id, r.view)}
+        >
+          {r.label}
+        </button>
+      ))}
+    </div>
+  );
+}
+
+Object.assign(window, { Sidebar, TopBar, MobileNav, Banner, PushToast, RoleSwitcher });
