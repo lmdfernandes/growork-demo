@@ -37,17 +37,21 @@ function ProDashboard({ t, lang, onChat, onNav }) {
 
   return (
     <div>
-      <div className="spread mb-4">
-        <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
-          <div className="avatar lg" style={{ background: "linear-gradient(135deg, #FF6FB5, var(--accent))", fontSize: 24, width: 56, height: 56 }}>💇‍♀️</div>
-          <div>
-            <h1 className="page-title" style={{ marginBottom: 2 }}>{t.pro_hello}</h1>
-            <p className="page-sub" style={{ marginBottom: 0 }}>{t.pro_sub}</p>
+      <div className="dash-hero">
+        <img className="dash-hero-img" src={window.__resources.hero2} alt="" />
+        <div className="dash-hero-overlay" />
+        <div className="dash-hero-content">
+          <div className="dash-hero-greet">
+            <div className="avatar lg dash-hero-avatar" style={{ background: "linear-gradient(135deg, #FF6FB5, var(--accent))", fontSize: 24, width: 56, height: 56 }}>💇‍♀️</div>
+            <div style={{ minWidth: 0 }}>
+              <h1 className="dash-hero-title">{t.pro_hello}</h1>
+              <p className="dash-hero-sub">{t.pro_sub}</p>
+            </div>
           </div>
-        </div>
-        <div style={{ display: "flex", gap: 8 }}>
-          <button className="btn btn-outline" onClick={() => onNav && onNav("pro-bookings")}>{Icons.calendar} {t.calendar}</button>
-          <button className="btn btn-primary" onClick={() => onNav && onNav("pro-new-booking")}>{Icons.plus} {t.add_appt}</button>
+          <div className="dash-hero-actions">
+            <button className="btn btn-glass" onClick={() => onNav && onNav("pro-bookings")}>{Icons.calendar} {t.calendar}</button>
+            <button className="btn btn-primary" onClick={() => onNav && onNav("pro-new-booking")}>{Icons.plus} {t.add_appt}</button>
+          </div>
         </div>
       </div>
 
@@ -851,19 +855,23 @@ function MemberDashboard({ t, lang, onChat, memberId, onNav }) {
 
   return (
     <div>
-      <div className="spread mb-4">
-        <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
-          <div className="avatar lg" style={{ background: me.color, fontSize: 24, width: 56, height: 56 }}>{me.emoji}</div>
-          <div>
-            <h1 className="page-title" style={{ marginBottom: 2 }}>{lang === "pt" ? `Olá, ${me.name.split(" ")[0]} 👋` : `Hi, ${me.name.split(" ")[0]} 👋`}</h1>
-            <p className="page-sub" style={{ marginBottom: 0 }}>
-              {lang === "pt" ? `Você tem ${todayBookings.length} marcaç${todayBookings.length === 1 ? "ão" : "ões"} hoje.` : `You have ${todayBookings.length} booking${todayBookings.length === 1 ? "" : "s"} today.`}
-            </p>
+      <div className="dash-hero">
+        <img className="dash-hero-img" src={window.__resources.hero3} alt="" />
+        <div className="dash-hero-overlay" />
+        <div className="dash-hero-content">
+          <div className="dash-hero-greet">
+            <div className="avatar lg dash-hero-avatar" style={{ background: me.color, fontSize: 24, width: 56, height: 56 }}>{me.emoji}</div>
+            <div style={{ minWidth: 0 }}>
+              <h1 className="dash-hero-title">{lang === "pt" ? `Olá, ${me.name.split(" ")[0]} 👋` : `Hi, ${me.name.split(" ")[0]} 👋`}</h1>
+              <p className="dash-hero-sub">
+                {lang === "pt" ? `Você tem ${todayBookings.length} marcaç${todayBookings.length === 1 ? "ão" : "ões"} hoje.` : `You have ${todayBookings.length} booking${todayBookings.length === 1 ? "" : "s"} today.`}
+              </p>
+            </div>
           </div>
-        </div>
-        <div style={{ display: "flex", gap: 8 }}>
-          <button className="btn btn-outline" onClick={() => onNav && onNav("member-bookings")}>{Icons.calendar} {t.calendar}</button>
-          <button className="btn btn-primary" onClick={() => onNav && onNav("pro-new-booking")}>{Icons.plus} {t.add_appt}</button>
+          <div className="dash-hero-actions">
+            <button className="btn btn-glass" onClick={() => onNav && onNav("member-bookings")}>{Icons.calendar} {t.calendar}</button>
+            <button className="btn btn-primary" onClick={() => onNav && onNav("pro-new-booking")}>{Icons.plus} {t.add_appt}</button>
+          </div>
         </div>
       </div>
 
