@@ -165,10 +165,7 @@ function TopBar({ t, onNotifClick, unreadCount, role, lang, setLang, onPickPro, 
             <div className="brand-name">GroWork</div>
           </div>
         </div>
-        <div className="lang-toggle">
-          <button className={lang === "pt" ? "active" : ""} onClick={() => setLang("pt")}>PT</button>
-          <button className={lang === "en" ? "active" : ""} onClick={() => setLang("en")}>EN</button>
-        </div>
+        {/* Language lives in the hamburger drawer on mobile to keep the bar from overflowing */}
       </div>
 
       {/* Search with dropdown */}

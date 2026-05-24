@@ -93,6 +93,22 @@ html.dark .pro-card-img,
 html.dark .profile-cover-img,
 html.dark .next-up-img { filter: brightness(.85) saturate(.95); }
 
+/* These sit on a near-black --ink surface with light text in light mode.
+   In dark mode --ink flips to near-white, washing them out (white-on-white),
+   so re-point them to the accent to stay readable and on-brand. */
+html.dark .kpi.accent,
+html.dark .cat-chip.active,
+html.dark .step.done .step-num {
+  background: var(--accent);
+  color: var(--accent-fg);
+  border-color: var(--accent);
+}
+html.dark .kpi.accent .kpi-label { color: color-mix(in oklch, var(--accent-fg) 72%, transparent); }
+/* QR mock sits on a fixed white tile, so keep its modules dark in both themes */
+html.dark .qr-cell.on,
+html.dark .qr-corner::after { background: #15101f; }
+html.dark .qr-corner { border-color: #15101f; }
+
 * { box-sizing: border-box; }
 html, body { margin: 0; padding: 0; }
 body {
