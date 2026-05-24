@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(node shot.mjs)",
+      "Bash(npm run *)"
+    ]
+  }
+}
