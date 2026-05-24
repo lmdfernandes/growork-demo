@@ -402,6 +402,12 @@ a { color: inherit; text-decoration: none; }
 [data-variant="editorial"] .banner-btn { border-radius: 2px; }
 .banner-btn:hover { background: rgba(255,255,255,.28); }
 .banner-btn.primary { background: white; color: var(--ink); }
+@media (max-width: 560px) {
+  .banner { flex-wrap: wrap; }
+  .banner-body { flex: 1 1 calc(100% - 50px); }
+  .banner-actions { flex-basis: 100%; }
+  .banner-actions .banner-btn { flex: 1; text-align: center; }
+}
 
 /* ====== Headings ====== */
 .page-title {
